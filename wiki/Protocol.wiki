@@ -87,4 +87,4 @@ In the above 2 examples, the overhead of the protocol is diminished, as the data
 
 This redis protocol has been implemented [http://code.google.com/p/redis/wiki/SupportedLanguages in over 15 languages in redis], so supporting Redisql ONLY requires adding about 10 commands to these clients, as Redisql has not introduced any changes to the core protocol.<br/>
 
-The first ported library for Redisql is a PHP fork of Predis and can be found [http://github.com/JakSprats/predis/blob/master/lib/Redisql.php here]. It is only 400 lines and this includes a mysql interface that imports/exports tables from/to Mysql w/ single commands.
+The first ported library for Redisql is a PHP fork of Predis and can be found [http://github.com/JakSprats/predis/blob/master/lib/Predisql.php here]. It is only 400 lines and this includes a mysql interface that imports/exports tables from/to Mysql w/ single commands.
