@@ -1,0 +1,172 @@
+#labels Featured,Phase-Implementation
+= SQL REDISQL REDIS COMMANDS =
+
+Redisql supports:
+  # an OLTP optimised subset of SQL
+  # commands to transform NOSQL data to SQL (dubbed Redisql Commands)
+  # ALL redis 2.0 commands<br/>
+
+Supported SQL data types are currently UNSIGNED INT and TEXT.<br/>
+FLOAT is coming very soon. Datetime (per second resolution) should be represented as a UNSIGNED INT<br/>
+TEXT uses variable length storage and compression. UNSIGNED INT stores data using 2 bytes when possible.
+
+==REDISQL's Supported SQL==
+
+Create/Drop Operations:
+  * {{{CREATE TABLE customer (id INT, group_id INT, name TEXT, phone text, age INT);}}}
+  * {{{CREATE INDEX cust_group_ind ON customer (group_id);}}}
+  * {{{DROP TABLE customer}}}
+  * {{{DROP INDEX cust_group_ind}}}
+  * {{{DESC customer}}} - provides detailed memory usage info
+  * {{{DUMP customer}}} - dumps the table to client
+  * {{{DUMP customer TO MYSQL}}} - dumps the table in mysql format
+
+Single Row Operations
+  * {{{INSERT INTO customer VALUES (1,300,’John Doe’,’301-933-1891’,30);}}}
+  * {{{SELECT group_id, phone FROM customer WHERE id = 1}}}
+  * {{{DELETE FROM customer WHERE id = 1}}}
+  * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE id = 1}}}
+  * {{{INSERT INTO customer VALUES (1,300,’John Doe’,’301-933-1891’,30) RETURN SIZE;}}} - returns the size of the row, table, and indices
+
+Index Operations
+  * {{{SELECT group_id, phone FROM customer WHERE group_id BETWEEN 300 AND 400}}}
+  * {{{DELETE FROM customer WHERE group_id BETWEEN 300 AND 400}}}
+  * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE group_id BETWEEN 300 AND 400}}}
+
+Full Table Scan<br/>
+Find unindexed data – _not recommended, should be avoided when possible_
+  * {{{SCANSELECT id, phone FROM customer WHERE name = ‘bill’;}}}
+
+Full Table Scan w/ Range Query<br/>
+Find unindexed data – _not recommended, should be avoided when possible_
+  * {{{SCANSELECT id, group, phone FROM customer WHERE age BETWEEN 18 AND 25}}}
+
+*Joins*<br/>
+Join via single Index
+{{{
+SELECT customer.name, group.slogan
+ FROM customer, group
+ WHERE customer.group_id = group.id AND
+       group.id BETWEEN 300 AND = 400
+}}}
+
+Multi Index Join
+{{{
+SELECT patient.name, info.address, bill.debt
+FROM patient, info, bill
+WHERE patient.id = bill.patient_id AND
+      patient.id = info.patient_id AND
+      patient.id BETWEEN 300 AND = 400
+}}}
+
+Create table from Join
+{{{
+SELECT customer.name, group.slogan
+FROM customer, group
+WHERE customer.group_id = group.id AND
+      group.id BETWEEN 300 AND = 400
+STORE INSERT new_table
+}}}
+
+Create table from Range Query
+{{{
+SELECT *
+FROM customer
+WHERE group_id BETWEEN 300 AND = 400
+STORE INSERT new_table
+}}}
+An alternate syntax to Create Table from Range Query
+{{{
+CREATE TABLE new_table
+AS SELECT * FROM customer WHERE group_id BETWEEN 300 AND = 400
+}}}
+
+<br/>
+==REDISQL Commands==
+Normalise redis keys into a SQL Table
+  * NORM wildcard `[`wildcard2,wildcard3`]`
+  All redis-keys matching "wildcard" are normalised into a SQL table
+{{{
+NORM "user:*"
+}}}
+      # take ALL string KEYS matching the wildcard "user:`*`"
+      # create column_names using the pattern "user:`*`:column_name"
+      # the pk will be the part matching "`*`"
+      # put 1-3 together into a single Redisql table (w/ many rows) named "user".
+      # an example in PHP can be found [http://github.com/JakSprats/predis/blob/master/examples/pop_norm.php here]
+  Star schema normalisation: All redis-keys matching "user_address:`*`,user_payment:`*`,user:`*`" are normalised into the SQL tables "user_address,user_payment,user" respectively
+{{{
+NORM "user:*" payment,address
+}}}
+      # This will create the Redisql tables "user_address,user_payment,user" from
+      # all keys matching the "user_address:`*`,user_payment:`*`,user:`*`" wildcards (in that order)
+      # creating columns automatically (using the patterns "user_address:`*`:column, user_payment:`*`:column, user:`*`:column")
+      # an example in PHP can be found [http://github.com/JakSprats/predis/blob/master/examples/pop_norm.php here]
+
+Store the results of an Alsoql SELECT into a redis datastructure
+  * SELECT ..... STORE REDIS_COMMAND
+{{{
+SELECT name, salary
+FROM employee
+WHERE city = "san Francisco"
+STORE HSET SanFranWorker
+}}}
+      # create a redis Hash Table named {{{SanFranWorker}}} with all the employees from city "San Francisco"
+      # the values returned from the SELECTed column "name" will be the Hash Table's keys
+      # the values returned from the SELECTed column "salary" will be the Hash Table's values
+  Given the SQL table {{{CREATE TABLE actionlist (id INT PRIMARY KEY, user_id INT, timestamp INT, action TEXT)}}}
+{{{
+SELECT user_id, timestamp, action
+FROM actionlist
+WHERE id BETWEEN 1 AND 20000
+STORE ZADD user_action_zset$
+}}}
+    # for each user_id, a distinct ZSET will be created named "user_action_zset:1, user_action_zset:2", etc...
+    # each row will execute the command {{{ZADD user_action_zset${user_id} timestamp action}}}
+    # afterwards the command {{{ZREVRANGE user_action_zset:1 0 1}}} would return user 1's last two actions
+    # this functionality is demonstrated in the command line(bash) functions "init_actionlist, insert_actionlist, denorm_actionlist_to_many_zsets" found in this [http://github.com/JakSprats/Redisql/blob/master/bash_functions.sh file]
+<br/>
+Create a Redisql table from the results of a redis command
+  * CREATE TABLE table AS REDIS_COMMAND
+  NOTE: the ZSET tweets uses timestamp as its score
+{{{
+CREATE TABLE yesterdays_tweets AS ZRANGEBYSCORE tweets $two_days_ago $yesterday
+}}}
+      # take the members of the ZSET from two_days_ago until yesterday
+      # store them in a Redisql table named "yesterdays_tweets" (pk will be auto incremented INT)
+      # an example in PHP can be found in the example script [http://github.com/JakSprats/predis/blob/master/examples/tweet/tweet_archiver.php here] that calls the ZSetCache class [http://github.com/JakSprats/predis/blob/master/examples/ZsetCache.php here]
+<br/>
+Denormalise a Redisql table into one redis hash-table per table row
+  * DENORM table denorm_wildcard
+{{{
+DENORM user "user:*"
+}}}
+      # denormalise the "user" table into an individual hash-table per row, named "user:pk" (e.g. user:1, user:2)
+      # the keys of these hashes will be the column-names of the "user" table.
+  this is a simple mechanism to "Go Schemaless", an example script in PHP showcasing this can be found [http://github.com/JakSprats/predis/blob/master/examples/schemaless.php here]
+
+<br/>
+==REDIS Commands==
+Redis supports commands to deal with many data structures, including (strings, sets, lists, sorted-sets, and hash tables) - [http://code.google.com/p/redis/wiki/CommandReference full list]<br/>
+Commands generally have the syntax {{{OPERATION Object vals....}}}<br/>
+Examples: (there are always new commands so check out the full list [http://code.google.com/p/redis/wiki/CommandReference here])
+  * [http://code.google.com/p/redis/wiki/SetCommand SET] KEY VALUE - Set KEY to a string value
+  * [http://code.google.com/p/redis/wiki/GetCommand GET] KEY - Return the string value of KEY
+  * [http://code.google.com/p/redis/wiki/RpushCommand LPUSH] LISTNAME STRING - Append a STRING to the head of the List LISTNAME
+  * [http://code.google.com/p/redis/wiki/LpopCommand LPOP] LISTNAME - Return and remove (atomically) the first element of the List LISTNAME
+  * [http://code.google.com/p/redis/wiki/SaddCommand SADD] SETNAME STRING - Add STRING to the Set SETNAME
+  * [http://code.google.com/p/redis/wiki/SinterCommand SINTER] SETNAME_1 SETNAME_2 - Return the intersection between the Sets SETNAME_1, SETNAME_2, etc...
+  * [http://code.google.com/p/redis/wiki/ZaddCommand ZADD] ZSETNAME SCORE STRING - Add the specified string to the Sorted Set ZSETNAME assigning it the score SCORE (update if exists)
+  * [http://code.google.com/p/redis/wiki/ZrangeCommand ZRANGE] ZSETNAME START FINISH - Return a range of elements from the sorted set ZSETNAME (from START to FINISH) 
+  * [http://code.google.com/p/redis/wiki/HsetCommand HSET] HASHNAME KEY VALUE - create HASHNAME if it doesnt exist, and in the hashtable HASHNAME set KEY to VALUE
+  * [http://code.google.com/p/redis/wiki/HgetCommand HGET] HASHNAME KEY - Retrieve the value of the specified KEY from the hashtable HASHNAME
+*Redis has MANY command* it is the server that Redisql is built on, and has replication commands, virtual memory settings and loads more (message queues, command pipelines, atomic operations)<br/>
+Check out this very exciting project *[http://code.google.com/p/redis/ here]*<br/>
+Extensive documentation on redis commands can be found [http://code.google.com/p/redis/wiki/CommandReference here]<br/>
+*NOTE for redis users* the redis command _SELECT_ has been changed to the command _CHANGEDB_ in Redisql<br/>
+<br/>
+<br/>
+===NOTES===
+  # Column ordering in INSERT statements not yet supported
+  # Table aliasing in JOIN statements not yet supported
+  # the SCANSELECT command is used so a programmer is fully aware of doing a full table scan. The SELECT command can only query single-rows or range-queries on indexed-columns
