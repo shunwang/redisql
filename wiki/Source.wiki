@@ -1,0 +1,3 @@
+#labels Phase-Deploy
+  * Stable releases packed up into hearty [http://code.google.com/p/redisql/downloads/list Code Tarballs]
+  * Development branch code, fork at will via [http://github.com/JakSprats/Redisql Github]
