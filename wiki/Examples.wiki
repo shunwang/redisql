@@ -18,7 +18,7 @@ The following examples showcase how Redisql can
 === MYSQL EXAMPLE ONE: SQL tables at NOSQL speed ===
 If your database is bottlenecking and you need NOSQL speed, that is what Redisql was built for<br/>
 Redisql is a full relational database and is VERY fast
-  # export table(s) to Redisql (e.g. w/ PHP function [http://github.com/JakSprats/predis/blob/master/lib/Redisql.php importFromMysql()]), 
+  # export table(s) to Redisql (e.g. w/ PHP function [http://github.com/JakSprats/predis/blob/master/lib/Predisql.php importFromMysql()]), 
   # cutover your application to use an Redisql library (which speak SQL and support RDBMS functionality, meaning you simply switch libraries and maybe rename a few functions, if your current mysql library uses non standard function names)
   # That's it, you are set 
   # The Redisql server can even be on a different machine if you want to free up resources for your mysql-server
@@ -69,7 +69,7 @@ Steps to go from mysql to schemaless nosql
 DENORM table "table:*"
 }}}
 Thats it, you will now have one hash-table per sql-table-row with names "table:1, table:2, table:3, ....".<br/>
-You are schemaless. And for the meek/sensible, there are ways to reverse this process described [http://code.google.com/p/redisql/wiki/Examples#REDIS_EXAMPLE_ONE:_backup_redis_data_to_Mysql here], you can schema-up :) 
+You are schemaless. And for the meek/sensible, there are ways to reverse this process described [http://code.google.com/p/redisql/wiki/Examples#REDIS_EXAMPLE_ONE:_backup_redis_data_to_Mysql_for_Data_Mining_or here], you can schema-up :) 
 A working PHP example, can be found [http://github.com/JakSprats/predis/blob/master/examples/schemaless.php here] .. it is basically 2 function calls :)
 <br/>
 <br/>
