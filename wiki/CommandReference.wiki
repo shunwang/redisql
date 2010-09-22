@@ -2,15 +2,15 @@
 = REDISQL COMMANDS =
 
 Redisql supports:
-  # an OLTP optimised subset of SQL
-  # commands to transform NOSQL data to SQL (dubbed Redisql Commands)
+  # An OLTP optimised subset of SQL
+  # Commands to transform NOSQL data to SQL and vice versa (dubbed MORPH Commands)
   # ALL redis 2.0 commands<br/>
 
 Supported SQL data types are currently UNSIGNED INT and TEXT.<br/>
 FLOAT is coming very soon. Datetime (per second resolution) should be represented as a UNSIGNED INT<br/>
 TEXT uses variable length storage and compression. UNSIGNED INT stores data using 2 bytes when possible.
 
-==REDISQL's Supported SQL==
+==Supported SQL==
 
 Create/Drop Operations:
   * {{{CREATE TABLE customer (id INT, group_id INT, name TEXT, phone text, age INT);}}}
@@ -82,7 +82,7 @@ AS SELECT * FROM customer WHERE group_id BETWEEN 300 AND = 400
 }}}
 
 <br/>
-==REDISQL Commands==
+==MORPH Commands==
 Normalise redis keys into a SQL Table
   * NORM wildcard `[`wildcard2,wildcard3`]`
   All redis-keys matching "wildcard" are normalised into a SQL table
