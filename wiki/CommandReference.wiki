@@ -1,5 +1,5 @@
 #labels Featured,Phase-Implementation
-= SQL REDISQL REDIS COMMANDS =
+= REDISQL COMMANDS =
 
 Redisql supports:
   # an OLTP optimised subset of SQL
