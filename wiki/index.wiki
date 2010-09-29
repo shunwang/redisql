@@ -14,3 +14,5 @@ The documentation is a work in progress.
 
   * PHP clients rock, check out [http://github.com/JakSprats/predis Predisql] and [http://github.com/JakSprats/Rediska Redisqlska]
   * Ruby and Node.js clients coming real soon
+
+  * Jaksprats (author) [http://jaksprats.wordpress.com/ blog] discussing the strengths and uses of Redisql
