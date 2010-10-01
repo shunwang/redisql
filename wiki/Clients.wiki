@@ -1,8 +1,8 @@
 ==CLIENTS:==
-  # Predisql: PHP 5.3 CLIENT: http://github.com/JakSprats/predis (a fork of Predis)
-    * Predisql: PHP 5.2 backport of this version is available [http://allinram.info/alsosql/Predis_v0.6.1-PHP5.2_ALSOSQL_ENABLED.tgz here]
   # Redisqlska: PHP Client http://github.com/JakSprats/Rediska (a fork of Rediska)
   # redisql-rb: Ruby client http://github.com/JakSprats/redis-rb (fork of redis-rb)
+  # Predisql: PHP 5.3 CLIENT: http://github.com/JakSprats/predis (a fork of Predis)
+    * Predisql: PHP 5.2 backport of this version is available [http://allinram.info/alsosql/Predis_v0.6.1-PHP5.2_ALSOSQL_ENABLED.tgz here]
   # working on Node.js client - fork of redis-node-client
   # Many more to come .... (redis supports 15+ and adding on Redisql is trivial)
 
