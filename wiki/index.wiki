@@ -12,8 +12,6 @@ The documentation is a work in progress.
   * Development branch code, fork at will via [http://github.com/JakSprats/Redisql Github]
 
 
-  * PHP clients rock, check out [http://github.com/JakSprats/predis Predisql] and [http://github.com/JakSprats/Rediska Redisqlska]
-  * [http://github.com/JakSprats/redis-rb Ruby client] (fork of redis-rb)
-  * Node.js client coming real soon
+  * Clients can be found [http://code.google.com/p/redisql/wiki/Clients here]
 
   * Jaksprats (author) [http://jaksprats.wordpress.com/ blog] discussing the strengths and uses of Redisql
