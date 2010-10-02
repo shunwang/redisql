@@ -7,9 +7,6 @@ Redisql is based on the NOSQL data-store redis. Redis has a very simple, powerfu
 Redis protocol is specified [http://code.google.com/p/redis/wiki/ProtocolSpecification here]. This is the starting point for learning about the protocol, and this is where the protocol is defined.
 <br/>
 
-One difference between the Redis protocol and the Redisql protocol is the command "SELECT" is a SQL SELECT in Redisql and databases are changed by using the command "CHANGEDB"
-<br/>
-
 Redisql's commands basically have the same syntax (except INSERT and UPDATE have one client side dependency to avoid unneeded overhead, and SQL where clauses are transmitted as a single argument for the same reason)
 <br/>
 
@@ -87,4 +84,10 @@ In the above 2 examples, the overhead of the protocol is diminished, as the data
 
 This redis protocol has been implemented [http://code.google.com/p/redis/wiki/SupportedLanguages in over 15 languages in redis], so supporting Redisql ONLY requires adding about 10 commands to these clients, as Redisql has not introduced any changes to the core protocol.<br/>
 
-The first ported library for Redisql is a PHP fork of Predis and can be found [http://github.com/JakSprats/predis/blob/master/lib/Predisql.php here]. It is only 400 lines and this includes a mysql interface that imports/exports tables from/to Mysql w/ single commands.
+Ported libraries for Redisql include 
+  * Ruby (a patch on redis-rb) found [http://github.com/JakSprats/redis-rb here]
+  * PHP  (a patch on Rediska( found [http://github.com/JakSprats/Rediska here] w/ the main library [http://github.com/JakSprats/Rediska/blob/master/library/Redisqlska.php here], only 500 lines and including a mysql interface that imports/exports tables from/to Mysql w/ single commands.
+
+*NOTE*
+One difference between the Redis protocol and the Redisql protocol is the command "SELECT" is a SQL SELECT in Redisql and databases should be changed by using the command "CHANGEDB" - altough using the redis "SELECT DB" has been included for backwards compatibility
+<br/>
