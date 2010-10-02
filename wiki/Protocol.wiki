@@ -89,5 +89,5 @@ Ported libraries for Redisql include
   * PHP  (a patch on Rediska( found [http://github.com/JakSprats/Rediska here] w/ the main library [http://github.com/JakSprats/Rediska/blob/master/library/Redisqlska.php here], only 500 lines and including a mysql interface that imports/exports tables from/to Mysql w/ single commands.
 
 *NOTE*
-One difference between the Redis protocol and the Redisql protocol is the command "SELECT" is a SQL SELECT in Redisql and databases should be changed by using the command "CHANGEDB" - altough using the redis "SELECT DB" has been included for backwards compatibility
+One difference between the Redis protocol and the Redisql protocol is the command "SELECT", which is a SQL SELECT in Redisql and databases should be changed by using the command "CHANGEDB" - although using the redis "SELECT DB" has been included for backwards compatibility
 <br/>
