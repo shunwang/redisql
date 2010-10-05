@@ -124,7 +124,7 @@ STORE ZADD user_action_zset$
     # for each user_id, a distinct ZSET will be created named "user_action_zset:1, user_action_zset:2", etc...
     # each row will execute the command {{{ZADD user_action_zset${user_id} timestamp action}}}
     # afterwards the command {{{ZREVRANGE user_action_zset:1 0 1}}} would return user 1's last two actions
-    # this functionality is demonstrated in the command line(bash) functions "init_actionlist, insert_actionlist, denorm_actionlist_to_many_zsets" found in this [http://github.com/JakSprats/Redisql/blob/master/bash_functions.sh file]
+    # this functionality is demonstrated in this [http://github.com/JakSprats/redis-rb/blob/master/examples/action_list.rb Ruby script]
 <br/>
 ===Create a Redisql table from the results of a redis command===
   * CREATE TABLE table AS REDIS_COMMAND
