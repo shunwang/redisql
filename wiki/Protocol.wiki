@@ -85,7 +85,7 @@ In the above 2 examples, the overhead of the protocol is diminished, as the data
 This redis protocol has been implemented [http://code.google.com/p/redis/wiki/SupportedLanguages in over 15 languages in redis], so supporting Redisql ONLY requires adding about 10 commands to these clients, as Redisql has not introduced any changes to the core protocol.<br/>
 
 Ported libraries for Redisql include 
-  * Ruby (a patch on redis-rb) found [http://github.com/JakSprats/redis-rb here]
+  * Ruby (a patch on redis-rb) found [http://github.com/JakSprats/redis-rb here] - implementation is less than 100 lines
   * PHP  (a patch on Rediska( found [http://github.com/JakSprats/Rediska here] w/ the main library [http://github.com/JakSprats/Rediska/blob/master/library/Redisqlska.php here], only 500 lines and including a mysql interface that imports/exports tables from/to Mysql w/ single commands.
 
 *NOTE*
