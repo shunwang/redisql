@@ -29,9 +29,9 @@ TEXT uses variable length storage and compression. UNSIGNED INT stores data usin
   * {{{INSERT INTO customer VALUES (1,300,’John Doe’,’301-933-1891’,30) RETURN SIZE;}}} - returns the size of the row, table, and indices
 
 ===Index Operations===
-  * {{{SELECT group_id, phone FROM customer WHERE group_id BETWEEN 300 AND 400}}}
-  * {{{DELETE FROM customer WHERE group_id BETWEEN 300 AND 400}}}
-  * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE group_id BETWEEN 300 AND 400}}}
+  * {{{SELECT group_id, phone FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
+  * {{{DELETE FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
+  * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
 
 ===Full Table Scan===
 Find unindexed data – _not recommended, should be avoided when possible_
@@ -48,6 +48,7 @@ SELECT customer.name, group.slogan
  FROM customer, group
  WHERE customer.group_id = group.id AND
        group.id BETWEEN 300 AND = 400
+       [ORDER BY table.column LIMIT x]
 }}}
 
 ===Multi Index Join===
