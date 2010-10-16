@@ -129,7 +129,7 @@ STORE ZADD user_action_zset$
     # each row will execute the command {{{ZADD user_action_zset${user_id} timestamp action}}}
     # afterwards the command {{{ZREVRANGE user_action_zset:1 0 1}}} would return user 1's last two actions
     # this functionality is demonstrated in this [http://github.com/JakSprats/redis-rb/blob/master/examples/action_list.rb Ruby script]
-<br/>
+
 ===Create a Redisql table from the results of a redis command===
   * CREATE TABLE table AS REDIS_COMMAND
   NOTE: the ZSET tweets uses timestamp as its score
@@ -139,7 +139,7 @@ CREATE TABLE yesterdays_tweets AS ZRANGEBYSCORE tweets $two_days_ago $yesterday
       # take the members of the ZSET from two_days_ago until yesterday
       # store them in a Redisql table named "yesterdays_tweets" (pk will be auto incremented INT)
       # an example in PHP can be found in the example script [http://github.com/JakSprats/predis/blob/master/examples/tweet/tweet_archiver.php here] that calls the ZSetCache class [http://github.com/JakSprats/predis/blob/master/examples/ZsetCache.php here]
-<br/>
+
 ===Denormalise a Redisql table into one redis hash-table per table row===
   * DENORM table denorm_wildcard
 {{{
