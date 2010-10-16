@@ -33,14 +33,6 @@ TEXT uses variable length storage and compression. UNSIGNED INT stores data usin
   * {{{DELETE FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
   * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
 
-===Full Table Scan===
-Find unindexed data – _not recommended, should be avoided when possible_
-  * {{{SCANSELECT id, phone FROM customer WHERE name = ‘bill’;}}}
-
-===Full Table Scan w/ Range Query===
-Find unindexed data – _not recommended, should be avoided when possible_
-  * {{{SCANSELECT id, group, phone FROM customer WHERE age BETWEEN 18 AND 25}}}
-
 ===Joins===
 ===Join via single Index===
 {{{
@@ -81,6 +73,17 @@ An alternate syntax to Create Table from Range Query
 CREATE TABLE new_table
 AS SELECT * FROM customer WHERE group_id BETWEEN 300 AND = 400
 }}}
+
+===Full Table Scan===
+Find unindexed data – _not recommended, should be avoided when possible_
+{{{
+SCANSELECT id, phone FROM customer WHERE name = ‘bill’;
+}}}
+Full Table Scan w/ Range Query
+{{{
+SCANSELECT id, group, phone FROM customer WHERE age BETWEEN 18 AND 25
+}}}
+  _the SCANSELECT command is used so a programmer is forced to be aware of doing a full table scan._
 
 <br/>
 ==MORPH Commands==
@@ -170,4 +173,3 @@ Extensive documentation on redis commands can be found [http://code.google.com/p
 ===NOTES===
   # Column ordering in INSERT statements not yet supported
   # Table aliasing in JOIN statements not yet supported
-  # the SCANSELECT command is used so a programmer is fully aware of doing a full table scan. The SELECT command can only query single-rows or range-queries on indexed-columns
