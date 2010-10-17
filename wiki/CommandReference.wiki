@@ -49,13 +49,14 @@ SELECT customer.name, group.slogan
        [ORDER BY table.column LIMIT x]
 }}}
 
-===Multi Index Join===
+===Multi Index Join w/ Non-Relational IN() Clause===
 {{{
 SELECT patient.name, info.address, bill.debt
 FROM patient, info, bill
 WHERE patient.id = bill.patient_id AND
       patient.id = info.patient_id AND
-      patient.id IN (300, 301, 307, 311)
+      patient.id IN (LRANGE list_index 0 9)
+      [ORDER BY table.column LIMIT x]
 }}}
 
 ===Create table from Join===
@@ -63,7 +64,7 @@ WHERE patient.id = bill.patient_id AND
 SELECT customer.name, group.slogan
 FROM customer, group
 WHERE customer.group_id = group.id AND
-      group.id BETWEEN 300 AND = 400
+      group.id IN (300, 301, 307, 311)
 STORE INSERT new_table
 }}}
 
