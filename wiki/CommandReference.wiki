@@ -32,6 +32,8 @@ TEXT uses variable length storage and compression. UNSIGNED INT stores data usin
   * {{{SELECT group_id, phone FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
   * {{{DELETE FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
   * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
+  * The Range Query {{{BETWEEN 300 AND 400}}} can also be {{{IN (300, 301, 307, 311)}}
+  * _Introducing_ the *Non-Relational Range Query* {{{SELECT group_id, phone FROM customer WHERE group_id IN (LRANGE list_index 0 9) [ORDER BY column LIMIT x]}}} - the IN() can contain ANY redis command that returns rows (e.g. SINTER, ZRANGE, etc...)
 
 ===Joins===
 ===Join via single Index===
