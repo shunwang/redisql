@@ -30,10 +30,14 @@ TEXT uses variable length storage and compression. UNSIGNED INT stores data usin
 
 ===Index Operations===
   * {{{SELECT group_id, phone FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
+  * {{{SELECT group_id, phone FROM customer WHERE group_id IN (300, 301, 307, 311) [ORDER BY column LIMIT x]}}}
+  * _Introducing_ the *Non-Relational Range Query* - the IN() can contain ANY redis command that returns rows (e.g. LRANGE, SINTER, ZREVRANGE, etc...)
+{{{
+SELECT group_id, phone FROM customer WHERE group_id IN (LRANGE list_index 0 9) [ORDER BY column LIMIT x]
+}}}
   * {{{DELETE FROM customer WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
   * {{{UPDATE customer SET phone = ‘703-933-1891’, group_id = 4 WHERE group_id BETWEEN 300 AND 400 [ORDER BY column LIMIT x]}}}
-  * The Range Query {{{BETWEEN 300 AND 400}}} can also be {{{IN (300, 301, 307, 311)}}
-  * _Introducing_ the *Non-Relational Range Query* {{{SELECT group_id, phone FROM customer WHERE group_id IN (LRANGE list_index 0 9) [ORDER BY column LIMIT x]}}} - the IN() can contain ANY redis command that returns rows (e.g. SINTER, ZRANGE, etc...)
+ 
 
 ===Joins===
 ===Join via single Index===
@@ -51,7 +55,7 @@ SELECT patient.name, info.address, bill.debt
 FROM patient, info, bill
 WHERE patient.id = bill.patient_id AND
       patient.id = info.patient_id AND
-      patient.id BETWEEN 300 AND = 400
+      patient.id IN (300, 301, 307, 311)
 }}}
 
 ===Create table from Join===
@@ -85,8 +89,7 @@ Full Table Scan w/ Range Query
 {{{
 SCANSELECT id, group, phone FROM customer WHERE age BETWEEN 18 AND 25
 }}}
-  _the SCANSELECT command is used so a programmer is forced to be aware of doing a full table scan._
-
+  _the SCANSELECT command makes it impossible to accidentally do a full table scan w/ SELECT_
 <br/>
 ==MORPH Commands==
 ===Normalise redis keys into a SQL Table===
@@ -120,7 +123,8 @@ STORE HSET SanFranWorker
       # create a redis Hash Table named {{{SanFranWorker}}} with all the employees from city "San Francisco"
       # the values returned from the SELECTed column "name" will be the Hash Table's keys
       # the values returned from the SELECTed column "salary" will be the Hash Table's values
-  Given the SQL table {{{CREATE TABLE actionlist (id INT PRIMARY KEY, user_id INT, timestamp INT, action TEXT)}}}
+  Given the SQL table {{{CREATE TABLE actionlist (id INT PRIMARY KEY, user_id INT, timestamp INT, action TEXT)}}}<br/>
+  The {{{$}}} on the end of {{{user_action_zset$}}} has a special functionality
 {{{
 SELECT user_id, timestamp, action
 FROM actionlist
