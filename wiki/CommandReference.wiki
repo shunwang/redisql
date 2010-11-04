@@ -159,26 +159,14 @@ DENORM user "user:*"
   this is a simple mechanism to "Go Schemaless", an example script in PHP showcasing this can be found [http://github.com/JakSprats/predis/blob/master/examples/schemaless.php here]
 
 <br/>
-==REDIS Commands==
-Redis supports commands to deal with many data structures, including (strings, sets, lists, sorted-sets, and hash tables) - [http://code.google.com/p/redis/wiki/CommandReference full list]<br/>
-Commands generally have the syntax {{{OPERATION Object vals....}}}<br/>
-Examples: (there are always new commands so check out the full list [http://code.google.com/p/redis/wiki/CommandReference here])
-  * [http://code.google.com/p/redis/wiki/SetCommand SET] KEY VALUE - Set KEY to a string value
-  * [http://code.google.com/p/redis/wiki/GetCommand GET] KEY - Return the string value of KEY
-  * [http://code.google.com/p/redis/wiki/RpushCommand LPUSH] LISTNAME STRING - Append a STRING to the head of the List LISTNAME
-  * [http://code.google.com/p/redis/wiki/LpopCommand LPOP] LISTNAME - Return and remove (atomically) the first element of the List LISTNAME
-  * [http://code.google.com/p/redis/wiki/SaddCommand SADD] SETNAME STRING - Add STRING to the Set SETNAME
-  * [http://code.google.com/p/redis/wiki/SinterCommand SINTER] SETNAME_1 SETNAME_2 - Return the intersection between the Sets SETNAME_1, SETNAME_2, etc...
-  * [http://code.google.com/p/redis/wiki/ZaddCommand ZADD] ZSETNAME SCORE STRING - Add the specified string to the Sorted Set ZSETNAME assigning it the score SCORE (update if exists)
-  * [http://code.google.com/p/redis/wiki/ZrangeCommand ZRANGE] ZSETNAME START FINISH - Return a range of elements from the sorted set ZSETNAME (from START to FINISH) 
-  * [http://code.google.com/p/redis/wiki/HsetCommand HSET] HASHNAME KEY VALUE - create HASHNAME if it doesnt exist, and in the hashtable HASHNAME set KEY to VALUE
-  * [http://code.google.com/p/redis/wiki/HgetCommand HGET] HASHNAME KEY - Retrieve the value of the specified KEY from the hashtable HASHNAME
-*Redis has MANY command* it is the server that Redisql is built on, and has replication commands, virtual memory settings and loads more (message queues, command pipelines, atomic operations)<br/>
-Check out this very exciting project *[http://code.google.com/p/redis/ here]*<br/>
+==redis Commands==
+redis supports commands to deal with many data structures, including (strings, sets, lists, sorted-sets, and hash tables) - [http://code.google.com/p/redis/wiki/CommandReference full list]<br/>
+redis project home page *[http://code.google.com/p/redis/ here]*<br/>
 Extensive documentation on redis commands can be found [http://code.google.com/p/redis/wiki/CommandReference here]<br/>
-*NOTE for redis users* the redis command _SELECT_ has been changed to the command _CHANGEDB_ in Redisql<br/>
 <br/>
-<br/>
-===NOTES===
+The following is an IFRAME of redis' command reference page, complete w/ links describing each command<br/>
+<wiki:gadget url="http://www.allinram.info/alsosql/gadget.xml"  border="0" width="1200" height="4050"/> 
+
+===SQL NOTES===
   # Column ordering in INSERT statements not yet supported
   # Table aliasing in JOIN statements not yet supported
