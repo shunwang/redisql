@@ -13,28 +13,28 @@ Redisql requests use redis' [http://code.google.com/p/redis/wiki/ProtocolSpecifi
 Redisql responses are 100% redis compliant (e.g. CREATE TABLE -> +OK, SELECT `*` FROM table -> Multi-Bulk)
 
 ==List of number of arguments and placement of SQL keywords for Redisql commands==
-  # CREATE TABLE has 4 arguments "CREATE TABLE table_name (col type,,,,,,)"
+  # CREATE TABLE has 4 arguments "CREATE TABLE table_name (col1 type,col2 type,,,)"
   # DROP TABLE has 2 arguments "DROP TABLE table_name"
   # DESC TABLE has 1 argument "DESC table_name"
   # DUMP TABLE has 1 argument "DUMP table_name"
   # CREATE INDEX has 6 arguments "CREATE INDEX index_name ON table (column)"
   # DROP INDEX has 2 arguments "DROP INDEX index_name"
-  # INSERT has 5 arguments "INSERT INTO table VALUES (val,,,,)"
-  # SELECT has 6 arguments "SELECT columns,,,,, FROM tbls,,,,, WHERE where_clause"
-  # UPDATE has 6 arguments "UPDATE table SET update_list WHERE where_clause"
+  # INSERT has 5 arguments "INSERT INTO table VALUES (val1,val2,,,)"
+  # SELECT has 6 arguments "SELECT column1,column2,,, FROM tbl1,tbl2, WHERE where_clause"
+  # UPDATE has 6 arguments "UPDATE table SET col1=val1,col2=val2,,, WHERE where_clause"
   # DELETE has 5 arguments "DELETE FROM table WHERE where_clause"
-  # SCANSELECT has 6 arguments "SCANSELECT columns,,,,, FROM tbls,,,,, WHERE where_clause"
+  # SCANSELECT has 6 arguments "SCANSELECT column1,column2,,, FROM tbl WHERE where_clause"
   # NORM has 2 arguments "NORM main_wildcard secondary_wildcard,,,," - 2nd is optional
   # DENORM has 2 arguments "DENORM table_name main_wildcard"
   # LUA has 1 arguments "LUA lua_cmd"
  
 Optional Syntaxes
   # DUMP can also dump to Mysql format, where it has 5 aguments "DUMP table_name TO MYSQL mysql_table_name"
-  # SCANSELECT can also have 4 arguments when it has no where-clause "SCANSELECT columns,,,,, FROM tbls,,,,,"
+  # SCANSELECT can also have 4 arguments when it has no where-clause "SCANSELECT column1,column2,,, FROM tbl"
 
 
 ===EXAMPLES===
-The following example do not explicitly write out the "\r\n" at the end of each line, but the protocol does require them.
+The following examples do not explicitly write out the "\r\n" at the end of each line, but the protocol does require them.
 
 *SELECT* Example:
 {{{
