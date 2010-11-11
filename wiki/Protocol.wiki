@@ -12,16 +12,6 @@ Redisql's commands basically have the same syntax, except SQL Keywords are requi
 Redisql requests use redis' [http://code.google.com/p/redis/wiki/ProtocolSpecification#The_new_unified_request_protocol unified request protocol].<br/>
 Redisql responses are 100% redis compliant (e.g. CREATE TABLE -> +OK, SELECT `*` FROM table -> Multi-Bulk)
 
-An Example: the Redisql Command 
-{{{
-DROP TABLE tablename
-}}}
-would have the following format when transmitted via a TCP socket to the Redisql Server
-{{{
-CLIENT: "DROP\r\nTABLE\r\ncustomer\r\n"
-SERVER: "+OK\r\n"
-}}}
-
 ==List of number of arguments and placement of SQL keywords for Redisql commands==
   # CREATE TABLE has 4 arguments "CREATE TABLE table_name (col type,,,,,,)"
   # DROP TABLE has 2 arguments "DROP TABLE table_name"
