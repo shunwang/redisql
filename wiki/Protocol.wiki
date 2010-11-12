@@ -115,4 +115,7 @@ Ported libraries for Redisql include
   # NODE.JS client http://github.com/JakSprats/node_Redisql (patch to node_redis) - actively maintained
   # Predisql: PHP 5.3 CLIENT: http://github.com/JakSprats/predis (a fork of Predis)
   # Embedded Lua: https://github.com/JakSprats/Redisql/blob/master/helper.lua
-NOTE: in the future, the Ruby and PHP clients will follow the example of the Node.js cilents and become very small patchs that are 100% on top of the redis clients.
+
+===NOTES===
+  * in the future, the Ruby and PHP clients will follow the example of the Node.js cilents and become very small patchs that are 100% on top of the redis clients.
+  * *SELECT* is used by both redis (select DB) and Redisql (select * from table where id = 1) in different capacities. Clients must either override redis' default SELECT functionality and create a select() that does redis if argc=1 and Redisql if argc> 1 OR come up w/ a two different commands for redis' and Redisql' select functionality (the former is recommended, but requires overriding and is more complex)
