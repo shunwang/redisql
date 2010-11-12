@@ -118,4 +118,4 @@ Ported libraries for Redisql include
 
 ===NOTES===
   * in the future, the Ruby and PHP clients will follow the example of the Node.js cilents and become very small patchs that are 100% on top of the redis clients.
-  * *SELECT* is used by both redis (select DB) and Redisql (select * from table where id = 1) in different capacities. Clients must either override redis' default SELECT functionality and create a select() that does redis if argc=1 and Redisql if argc> 1 OR come up w/ a two different commands for redis' and Redisql' select functionality (the former is recommended, but requires overriding and is more complex)
+  * *SELECT* is used by both redis (select DB) and Redisql (select '*' from table where id = 1) in different capacities. Clients must either override redis' default SELECT functionality and create a select() that does redis if argc=1 and Redisql if argc> 1 OR come up w/ a two different commands for redis' and Redisql' select functionality (the former is recommended, but requires overriding and is more complex)
