@@ -159,7 +159,44 @@ DENORM user "user:*"
   this is a simple mechanism to "Go Schemaless", an example script in PHP showcasing this can be found [http://github.com/JakSprats/predis/blob/master/examples/schemaless.php here]
 
 <br/>
-==redis Commands==
+==LUA Command==
+Redisql has embedded [http://www.lua.org/ LUA] <br/>
+[http://www.ibm.com/developerworks/linux/library/l-embed-lua/index.html IBM's lua description]: _The Lua programming language is a small scripting language specifically designed to be embedded in other programs. Lua’s C API allows exceptionally clean and simple code both to call Lua from C, and to call C from Lua”_<br/>
+Redisql has embedded Lua in its C-server and C in its embedded Lua :)<br/>
+The speed of embedded LUA commands in Redisql is impressive: [http://groups.google.com/group/redisql-dev/msg/e24027e82e5c2094 benchmark]<br/>
+
+===Simple LUA===
+{{{
+LUA "x=45;return x;"
+}}}
+===embedded LUA "client()" function===
+The lua function "client()" will call the Redisql server internally as if it were a client call.<br/>
+Command to set a user's last_login and return his status
+{{{
+LUA "client('SET','user:123:last_login',1289597410); return client('GET', 'user:123:status');"
+}}}
+===helper.lua===
+The file [https://github.com/JakSprats/Redisql/blob/master/helper.lua helper.lua] contains a full Redisql client library, defining simple versions of Redisql commands: e.g. get(), set(), zadd(), hset(), create_table(), select(), update(), norm()<br/>
+When helper.lua's functions have been loaded into Redisql, the above command could be simplified as 
+{{{
+LUA "set('user:123:last_login',1289597410); return get('user:123:status');"
+}}}
+Loading helper.lua into the Redisql server can be done either by specifiying the "luafilename" in the config file "redisql.conf" or by the following command
+{{{
+./redisql-cli CONFIG SET luafilename helper.lua
+}}}
+The "CONFIG SET luafilename" also provides a simple way to modify lua functions in Redisql w/o server restarts. Modify the commands in helper.lua and then load them, this will *reset Lua's state* and the new functions will be in place.<br/>
+===Global Lua Variable Server===
+This form of embedding Lua extends Redisql to be a global lua variable server. Lua variables have global scope, so if one client sets them another can read them.<br/>
+[http://lua-users.org/wiki/TablesTutorial Lua tables] are a very flexible and useful datatype in Lua<br/>
+Here is a command sequence from different clients accessing the same Lua table:
+{{{
+LUA "user_123_t = { 1,1,2,3,5,8,13 }; return 'SET lua table';"
+LUA "return user_123_t[4];"
+}}}
+
+<br/>
+==REDIS Commands==
 redis supports commands to deal with many data structures, including (strings, sets, lists, sorted-sets, and hash tables) - [http://code.google.com/p/redis/wiki/CommandReference full list]<br/>
 redis project home page *[http://code.google.com/p/redis/ here]*<br/>
 Extensive documentation on redis commands can be found [http://code.google.com/p/redis/wiki/CommandReference here]<br/>
