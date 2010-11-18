@@ -9,7 +9,8 @@ Redisql supports:
 
 Supported SQL data types are currently UNSIGNED INT, TEXT, and FLOAT.<br/>
 Datetime should be represented as a UNSIGNED INT or FLOAT<br/>
-TEXT uses variable length storage and compression and can be substituted for any VARCHAR() or CHAR(). UNSIGNED INT stores data using 2 bytes when possible.
+TEXT uses variable length storage and compression and can be substituted for any VARCHAR() or CHAR().<br/>
+UNSIGNED INT stores data using 2 bytes when possible.
 
 ==Supported SQL==
 
