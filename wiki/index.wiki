@@ -1,17 +1,1 @@
-= Redisql's Documentation =
-
-The documentation is a work in progress.
-
-  * Redisql can do a lot of things, check out [http://code.google.com/p/redisql/wiki/CommandReference CommandReference]
-  * Redisql is VERY fast, scales well when joining, and runs in swap with style, check out [http://code.google.com/p/redisql/wiki/Benchmarks Benchmarks]
-  * Ways to unleash the power of Redisql, w/ examples in code :) check out [http://code.google.com/p/redisql/wiki/Examples Examples]
-
-  * Want to write a client, or extend an existing one, best to have a firm grasp of the [http://code.google.com/p/redisql/wiki/Protocol Redisql Protocol]
-
-  * Stable releases packed up into hearty [http://code.google.com/p/redisql/downloads/list Code Tarballs]
-  * Development branch code, fork at will via [http://github.com/JakSprats/Redisql Github]
-
-
-  * Clients can be found [http://code.google.com/p/redisql/wiki/Clients here]
-
-  * Jaksprats (author) [http://jaksprats.wordpress.com/ blog] discussing the strengths and uses of Redisql
+=NOTE: Redisql is in the process of being renamed to "Alchemy Database", the new project wiki page can be found at http://code.google.com/p/alchemydatabase/wiki/index?tm=6 =
