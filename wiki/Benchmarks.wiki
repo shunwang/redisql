@@ -1,4 +1,3 @@
-#labels Featured
 = Redisql Benchmark results =
 
 *Hardware*<br/>
