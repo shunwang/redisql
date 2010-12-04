@@ -1,1 +1,2 @@
-=NOTE: Redisql is in the process of being renamed to "Alchemy Database", the new project wiki page can be found at http://code.google.com/p/alchemydatabase/wiki/index?tm=6 =
+=NOTE: Redisql is in the process of being renamed to "Alchemy Database", the new project wiki page can be found at =
+= http://code.google.com/p/alchemydatabase/wiki/index?tm=6 =
